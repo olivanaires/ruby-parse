@@ -1,18 +1,16 @@
+require 'json'
+$games = Hash.new(0)
+$kills = Hash.new(0)
+$kills_in_game=Hash.new(0)
 $numberGame=1
 $killCount=0
 $players=""
-$kills_in_game=Hash.new(0)
 
 def print_report()
-	puts "game_#{$numberGame}: {"
-	puts "	total_kills: #{$killCount};"
-	puts "	players: #{$players};"
-	puts "	kills: {"
 	$kills_in_game.each { |key, valor| 
-		puts "            \"#{key}\": #{valor}," 
+		$kills[key] = valor
 	}
-	puts "	}"
-	puts "}"
+	$games["game_#{$numberGame}"] = {:total_kills => "#{$killCount}", :players => "#{$players}", :kills => $kills}
 end
 
 def concat_nome_players(nome)
@@ -29,6 +27,8 @@ def reset_values()
 	$numberGame += 1
 	$killCount = 0
 	$players=""
+	$kills_in_game=Hash.new(0)
+	$kills = Hash.new(0)
 end
 
 File.foreach( "games.log" ) do |line|
@@ -49,3 +49,4 @@ File.foreach( "games.log" ) do |line|
 	end
 end
 
+puts JSON.pretty_generate($games)
