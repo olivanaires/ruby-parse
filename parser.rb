@@ -35,7 +35,7 @@ def reset_values()
 end
 
 # le linha a linha do arquivo game.log
-File.foreach( "games_teste.log" ) do |line|	
+File.foreach( "games.log" ) do |line|	
 	if line.include? "ShutdownGame"
 		print_report()
 		reset_values()
