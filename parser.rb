@@ -15,12 +15,12 @@ def print_report()
 end
 
 # metodo que concatena os players onlines para ser adiconado ao game
-def concat_nome_players(nome)
-	if not $players.include? nome
+def concat_name_players(name)
+	if not $players.include? name
 		if $players != ""
-			$players.concat(", ").concat(nome)	
+			$players.concat(", ").concat(name)	
 		else
-			$players.concat(nome)
+			$players.concat(name)
 		end 
 	end
 end
@@ -35,14 +35,17 @@ def reset_values()
 end
 
 # le linha a linha do arquivo game.log
-File.foreach( "games.log" ) do |line|	
+File.foreach( "games.log" ) do |line|
+	# responsavel por criar o game ao fim do mesmo
 	if line.include? "ShutdownGame"
 		print_report()
 		reset_values()
 	end
 
+	# contador de mortes por partida
 	if line.include? "Kill"
 		$kill_count += 1
+		# valida se o word não matou o player
 		if not line.include? "<world>"
 			player = line[/\d: (.*?) /][2..-1]
 			$kills_in_game[player] = $kills_in_game[player] + 1
@@ -50,10 +53,10 @@ File.foreach( "games.log" ) do |line|
 			$kill_by_means[means] = $kill_by_means[means] + 1
 		end		
 	end
-
+	# extrai o nome do usuario para ser concatenado caso ele não ja tenha sido
 	if line.include? "ClientUserinfoChanged" 
 		player = line[/n\\(.*?)\\t/][2..-3]
-		concat_nome_players(player)
+		concat_name_players(player)
 	end
 end
 
