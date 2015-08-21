@@ -43,29 +43,39 @@ class Printer
 
 	# le linha a linha do arquivo game.log
 	def read_file(file_name)
+		#criada para não criar um game vazio no inicio e para saber quando o game acaba e se inicioa um novo game
+		game_aux=false
 		File.foreach( file_name ) do |line|
-			# responsavel por criar o game ao fim do mesmo
-			if line.include? "ShutdownGame"
-				create_games_hash()
-				reset_values()
+			# se o game tiver sido iniciado, inicia-se a extração de informações
+			if game_aux==true
+				# contador de mortes por partida
+				if line.include? "Kill"
+					@kill_count += 1
+					# valida se o word não matou o player
+					if not line.include? "<world>"
+						player = line[/\d: (.*?) /][2..-1]
+						@kills_in_game[player] = @kills_in_game[player] + 1
+						means = line[/by (.*?)$/][3..-1]
+						@kill_by_means[means] = @kill_by_means[means] + 1
+					end		
+				end
+				# extrai o nome do usuario para ser concatenado caso ele não ja tenha sido
+				if line.include? "ClientUserinfoChanged" 
+					player = line[/n\\(.*?)\\t/][2..-3]
+					concat_name_players(player)
+				end
+				#detecta a finalização do game
+				if (line.include? "InitGame") || (line.include? "ShutdownGame") && (game_aux==true)
+					create_games_hash()
+					reset_values()
+					game_aux=false
+				end
+			end
+			# responsavel por criar o game
+			if (line.include? "InitGame") && (game_aux==false)
+				game_aux=true
 			end
 
-			# contador de mortes por partida
-			if line.include? "Kill"
-				@kill_count += 1
-				# valida se o word não matou o player
-				if not line.include? "<world>"
-					player = line[/\d: (.*?) /][2..-1]
-					@kills_in_game[player] = @kills_in_game[player] + 1
-					means = line[/by (.*?)$/][3..-1]
-					@kill_by_means[means] = @kill_by_means[means] + 1
-				end		
-			end
-			# extrai o nome do usuario para ser concatenado caso ele não ja tenha sido
-			if line.include? "ClientUserinfoChanged" 
-				player = line[/n\\(.*?)\\t/][2..-3]
-				concat_name_players(player)
-			end
 		end
 	end
 
