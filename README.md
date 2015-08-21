@@ -9,11 +9,11 @@ Foi criado o arquivo parse.rb, nele contem os métodos necessários para se extr
 Para executar o mesmo, basta clonar o repositório e no seu terminal, ir ate a pasta clonada e executar os comandos: 
 
 	
-	ruby parser.rb print_games games.log #imprime todos os games com o numero de kills, players online, número de kills por player
+	ruby execute.rb print_games games.log #imprime todos os games com o numero de kills, players online, número de kills por player
 	
-	ruby parser.rb print_rank games.log #imprime o rank por kills de cada game
+	ruby execute.rb print_rank games.log #imprime o rank por kills de cada game
 	
-	ruby parser.rb print_means_kill games.log #imprime o numero de kills por método utilizado
+	ruby execute.rb print_means_kill games.log #imprime o numero de kills por método utilizado
 	
 
 Levando em consideração que você ja tem o ruby instalado em sua maquina.
