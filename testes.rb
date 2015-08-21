@@ -13,7 +13,7 @@ class TestMeme < MiniTest::Unit::TestCase
 	  end
 
   	def test_print_rank
-  		rank = {" Isgalamido "=>1}
+  		rank = {"game_1"=>[[" Isgalamido ", 1]]}
     	assert_equal rank, @printer.print_rank('game_teste.log')
   	end
 
