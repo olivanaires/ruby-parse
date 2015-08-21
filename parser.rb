@@ -82,14 +82,12 @@ class Printer
 		return @means_kill_games
 	end
 
-	# Imprime o método das mortes
+	# Imprime o rank
 	def print_rank(file_name)
 		read_file(file_name)
 		@games.each { | key, kills | 
 			kills_sorted = kills[:kills].sort_by { |key, kill| kill }
-			kills_sorted.each { |key, kill|
-				@list_game_rank[key]=kill
-			}
+			@list_game_rank[key]=kills_sorted
 		}
 		return @list_game_rank
 	end

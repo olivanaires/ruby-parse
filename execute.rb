@@ -9,5 +9,12 @@ if metode.include? "print_games"
 elsif metode.include? "print_means_kill"
 	puts JSON.pretty_generate(p.print_means_kill(file_name))
 elsif metode.include? "print_rank"
-	puts JSON.pretty_generate(p.print_rank(file_name))
+	list_game_rank = p.print_rank(file_name)
+	list_game_rank.each{|key, value|
+		puts key
+		value.each{|key, value|
+			puts "#{key} - #{value}"
+		}
+	}
+	
 end
