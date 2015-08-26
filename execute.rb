@@ -1,5 +1,5 @@
 require_relative 'parser'
-
+# utilizado para executar o metodo de acordo com os parametros passados na linha de comando
 metode = ARGV[0]
 file_name = ARGV[1]
 p = Printer.new
@@ -16,5 +16,6 @@ elsif metode.include? "print_rank"
 			puts "#{key} - #{value}"
 		}
 	}
-	
+else
+	puts "opções erradas"
 end
